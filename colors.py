@@ -16,24 +16,25 @@ class COLORED_LETTERS:
         self.colors:dict = vars(colorama.Fore);
         self.filtered_colors:list = self.__filter_(self.colors);  # filtered_colors: list = list(colors[x] for x in colors if x not in BAD_COLORS);
         self.WORD:str = "";
-        if self.__COLOR_LETTERS():
+        while bool:
+            if self.__COLOR_LETTERS():
 
-            self.WORD_FINAL:list = list();
-            for x in self.WORD:
-                if x.islower():
-                    self.WORD_FINAL.append((letters.LETTERS_LOWER[str(x)]));
-                elif x.isupper():
-                    self.WORD_FINAL.append(letters.LETTERS_UPPER[str(x)])
-                elif str(x) == " ":
-                    self.WORD_FINAL.append("\n");
-                else:
-                    #This is only for prevention // will never be execute
-                    self.WORD_FINAL.append(letters.NONE_LETTER.replace("\n",""));
+                self.WORD_FINAL:list = list();
+                for x in self.WORD:
+                    if x.islower():
+                        self.WORD_FINAL.append((letters.LETTERS_LOWER[str(x)] + "\n"));
+                    elif x.isupper():
+                        self.WORD_FINAL.append(letters.LETTERS_UPPER[str(x)])
+                    elif str(x) == " ":
+                        self.WORD_FINAL.append("\n");
+                    else:
+                        #This is only for prevention // will never be execute
+                        self.WORD_FINAL.append(letters.NONE_LETTER.replace("\n",""));
 
 
-        self.colored_letters = "\n".join(list(random.choice(self.filtered_colors) + x for x in self.WORD_FINAL));
-        print(self.colored_letters);
-        keyboard.wait("enter")
+            self.colored_letters = "\n".join(list(random.choice(self.filtered_colors) + x for x in self.WORD_FINAL));
+            print(self.colored_letters);
+
 
     def __del__(self):
         print(colorama.Fore.BLUE + "I hope you liked it!");
