@@ -14,15 +14,17 @@ class COLORED_LETTERS:
     def __init__(self):
         self.BAD_COLORS:list = ["BLACK", "WHITE", "LIGHTBLACK_EX", "LIGHTWHITE_EX", "RESET"];
         self.colors:dict = vars(colorama.Fore);
-        self.filtered_colors:list = self.__filter_(self.colors);  # filtered_colors: list = list(colors[x] for x in colors if x not in BAD_COLORS);
+        self.filtered_colors:list = self.__filter_(self.colors);  # filtered_colors: list = list(colors[x] for x in colors if x not in BAD_COLORS)
         self.WORD:str = "";
-        while bool:
-            if self.__COLOR_LETTERS():
+        self.colored_letters: list = list();
+        self.WORD_FINAL: list = list();
+        self.__REQUEST_INPUT();
 
-                self.WORD_FINAL:list = list();
+        while True:
+            if self.WORD != "":
                 for x in self.WORD:
                     if x.islower():
-                        self.WORD_FINAL.append((letters.LETTERS_LOWER[str(x)] + "\n"));
+                        self.WORD_FINAL.append(letters.LETTERS_LOWER[x] + "\n");
                     elif x.isupper():
                         self.WORD_FINAL.append(letters.LETTERS_UPPER[str(x)])
                     elif str(x) == " ":
@@ -31,26 +33,27 @@ class COLORED_LETTERS:
                         #This is only for prevention // will never be execute
                         self.WORD_FINAL.append(letters.NONE_LETTER.replace("\n",""));
 
-
+            #paint letters
             self.colored_letters = "\n".join(list(random.choice(self.filtered_colors) + x for x in self.WORD_FINAL));
-            print(self.colored_letters);
-
+            break;
+        print(self.colored_letters);
 
     def __del__(self):
         print(colorama.Fore.BLUE + "I hope you liked it!");
         print(colorama.Style.RESET_ALL);
 
-    def __COLOR_LETTERS(self) -> bool:
-        Done:bool = not bool;
-        cache:list = list();
+    def __REQUEST_INPUT(self) -> None:
+        Done: bool = False;
         while not Done:
-            user_input:str = str(input("Palabra a colorear: "));
-            cache:bool = all(x in letters.ALLOWED_CHARS for x in user_input);
-            if cache:
+            user_input:str = str(input("Palabra a colorear (solo ascii): "));
+            all_ascii:bool = all(x in letters.ALLOWED_CHARS for x in user_input);
+            if all_ascii:
+                #clear the terminal
                 subprocess.run(["cls"], shell=True);
                 self.WORD:str = user_input;
-                return True;
+                Done = True;
             else:
+                print("vaya, parece que los caracteres que has escrito no son ascii...");
                 continue;
 
     def __filter_(self, args: dict) -> list:
